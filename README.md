@@ -1,1 +1,1 @@
-# selenium_auto_test_case
+# selenium_auto_tests
