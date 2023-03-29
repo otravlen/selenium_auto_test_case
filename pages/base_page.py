@@ -17,3 +17,9 @@ class BasePage:
         except NoSuchElementException:
             return False
         return True
+
+    def is_url_correct(self, correct_substring):
+        get_url = self.browser.current_url
+        sub_string_url = get_url.split('/')[-1]
+        return sub_string_url == correct_substring, print(sub_string_url)
+
