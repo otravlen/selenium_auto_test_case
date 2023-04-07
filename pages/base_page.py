@@ -4,6 +4,9 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from .locators import BasePageLocators
+from .locators import BasketPageLocators
+from .locators import LoginPageLocators
+import faker
 import math
 
 
@@ -66,3 +69,26 @@ class BasePage:
 
     def should_be_login_link(self):
         assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
+
+    def go_to_basket_page(self):
+        link = self.browser.find_element(*BasketPageLocators.BASKET_LINK)
+        link.click()
+
+    def register_new_user(self, email, password):
+        f = faker.Faker()
+        email = f.email()
+        password = "QWE123rty456"
+        register = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
+        register.click()
+        input_email = self.browser.find_element(*LoginPageLocators.REGISTER_FORM_EMAIL)
+        input_email.send_keys(email)
+        input_password = self.browser.find_element(*LoginPageLocators.REGISTER_FORM_PASSWORD)
+        input_password.send_keys(password)
+        input_password2 = self.browser.find_element(*LoginPageLocators.REGISTER_FORM_PASSWORD_2)
+        input_password2.send_keys(password)
+        register_button = self.browser.find_element(*LoginPageLocators.REGISTER_BUTTON)
+        register_button.click()
+
+    def should_be_authorized_user(self):
+         assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+                                                                         " probably unauthorised user"
